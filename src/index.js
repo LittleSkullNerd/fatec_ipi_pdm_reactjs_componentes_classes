@@ -1,6 +1,6 @@
-import "bootstrap/dist/css/bootstrap.min.css";
 import React from "react";
 import ReactDOM from "react-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 class App extends React.Component {
   constructor(props) {
@@ -13,6 +13,7 @@ class App extends React.Component {
       icone: null,
       mensagemDeErro: null,
     };
+    console.log("Construtor");
   }
 
   // Função para obter a estação climática
@@ -58,37 +59,42 @@ class App extends React.Component {
     );
   };
 
-  // Renderização do componente
+  // Métodos do ciclo de vida
+  componentDidMount() {
+    console.log("componentDidMount");
+    this.obterLocalizacao();
+  }
+
+  componentDidUpdate() {
+    console.log("componentDidUpdate");
+  }
+
+  componentWillUnmount() {
+    console.log("componentWillUnmount");
+  }
+
   render() {
+    console.log("Render");
     return (
-      <div className="container mt-2">
+      <div className="container mt-5">
         <div className="row justify-content-center">
-          <div className="col-md-8">
-            <div className="card">
+          <div className="col-md-6">
+            <div className="card text-center">
+              <div className="card-header">
+                <h3>Estação Climática</h3>
+              </div>
               <div className="card-body">
-                <div
-                  className="d-flex align-items-center border rounded mb-2"
-                  style={{ height: "6rem" }}
-                >
-                  <i className={`fas fa-5x ${this.state.icone}`}></i>
-                  <p className="w-75 ms-3 text-center fs-1">
-                    {this.state.estacao}
-                  </p>
-                </div>
-                <div>
-                  <p className="text-center">
-                    {this.state.latitude
-                      ? `Coordenadas: ${this.state.latitude}, ${this.state.longitude}. Data: ${this.state.data}`
-                      : this.state.mensagemDeErro
-                      ? this.state.mensagemDeErro
-                      : "Clique no botão para saber a sua estação climática"}
-                  </p>
-                </div>
+                <h5 className="card-title">Sua estação é:</h5>
+                <p className="card-text">
+                  {this.state.latitude
+                    ? `Estação: ${this.state.estacao}, Latitude: ${this.state.latitude}, Longitude: ${this.state.longitude}`
+                    : this.state.mensagemDeErro || "Obtendo localização..."}
+                </p>
                 <button
+                  className="btn btn-outline-primary"
                   onClick={this.obterLocalizacao}
-                  className="btn btn-outline-primary w-100 mt-2"
                 >
-                  Qual a minha estação?
+                  Atualizar Estação
                 </button>
               </div>
             </div>
